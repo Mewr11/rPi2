@@ -8,7 +8,10 @@ Include/**
 pip-selfcheck.json
 Scripts/**
 tcl/**
+bin/**
 
+# Sensitive information
+tokens.py
 
 # C extensions
 *.so
