@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Virtualenv stuff. Don't want to commit these
+Include/**
+pip-selfcheck.json
+Scripts/**
+tcl/**
+
+
 # C extensions
 *.so
 
