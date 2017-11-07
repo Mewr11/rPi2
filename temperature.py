@@ -3,8 +3,6 @@ from timer import run_timer
 from timer import clear
 import time
 
-clear() #clears led array
-
 def temperature():
 	sense = SenseHat()
 	running = True
@@ -19,4 +17,7 @@ def temperature():
 def securityProtocol(temperatureDifference):
 	#text("Temperature change of: " + temperatureDifference + "detected!\nText this number your password if this was you.")
 	run_timer()
-temperature()
+
+if __name__ == '__main__':
+    clear() # Clears the LED array
+    temperature()

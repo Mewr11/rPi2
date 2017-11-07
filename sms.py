@@ -1,7 +1,11 @@
 from twilio.rest import Client
-from tokens.py import *
+from tokens import *
 
 class SMS:
+    '''
+    Ensure you have a 'tokens.py' to hold the SID, authentication token, and phone number defaults.
+    Correct syntax can be found in 'tokens_ex.py'
+    '''
     def __init__(self,
                  account_sid=acc_sid,
                  auth_token=auth_tok,
