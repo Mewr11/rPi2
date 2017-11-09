@@ -1,6 +1,6 @@
 from sense_hat import SenseHat
 from time import sleep
-from timer import 
+from timer import timer 
 
 class accel_alarm():
 	def __init__(self):
