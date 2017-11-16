@@ -1,5 +1,6 @@
 from twilio.rest import Client
 from tokens import *
+from flask import Flask
 
 class SMS:
     '''
@@ -9,7 +10,9 @@ class SMS:
     def __init__(self,
                  account_sid=acc_sid,
                  auth_token=auth_tok,
-                 caller=call_num):
+                 caller=call_num,
+                 debug=False,
+                 autorun=True):
         '''
         __init__ will work perfectly fine with no arguments. Only call with arguments if you know what you are doing.
         
@@ -20,6 +23,21 @@ class SMS:
         self._auth_token = auth_token
         self.client = Client(account_sid, auth_token)
         self.caller = caller
+        self.flask = Flask('sms')
+        @self.flask.route('/sms', methods=['GET', 'POST'])
+        def sms_process():
+            '''
+            Handles an incoming message
+            '''
+            body = request.values.get('Body', None)
+
+            if body == 'Shut Up':
+                if debug:
+                    print('Shutting Up')
+                # Stop Timer
+
+        if autorun:
+            self.flask.run(debug=True)
     
     def call(self, number, message):
         '''
