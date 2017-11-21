@@ -24,6 +24,8 @@ class SMS:
         self.client = Client(account_sid, auth_token)
         self.caller = caller
         self.flask = Flask('sms')
+        self.disarms = []
+
         @self.flask.route('/sms', methods=['GET', 'POST'])
         def sms_process():
             '''
@@ -34,7 +36,8 @@ class SMS:
             if body == 'Shut Up':
                 if debug:
                     print('Shutting Up')
-                # Stop Timer
+                for f in disarms:
+                    f()
 
         if autorun:
             self.flask.run(debug=True)
