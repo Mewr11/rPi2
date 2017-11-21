@@ -1,4 +1,6 @@
 import sms
+import temperature
+import accel_alarm
 
 import time
 import threading
@@ -25,13 +27,26 @@ class SMS_Thread(sms.SMS, threading.Thread):
     def run(self):
         self.flask.run()
 
+class Temp_Thread(threading.Thread):
+    def __init__(self, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = counter
+        self.name = name
+        self.counter = counter
+    def run(self):
+        temperature.temperature()
+
+class Accel_Thread(threading.Thread, accel_alarm.accel_alarm):
+    def __init__(self, name, counter):
+        threading.Thread.__init__(self)
+        accel_alarm.accel_alarm.__init__(self)
+        self.threadID = counter
+        self.name = name
+        self.counter = counter
+    def run(self):
+        self.arm()
+
 if __name__ == '__main__':
-    t1 = Test_Thread('Myself', 0)
-    t2 = Test_Thread('This', 1)
-
-    t1.start()
-    t2.start()
-
-    t1.join()
-    t2.join()
-    print('Exiting the program')
+    global smsThread = SMS_Thread("Thread 1 - SMS", 0)
+    global tmpThread = Temp_Thread("Thread 2 - Temperature", 1)
+    global accThread = Accel_Thread("Thread 3 - Acceleration", 2)
