@@ -1,19 +1,30 @@
+import singular
+
 import time
 
 class Temperature:
-    def __init__(self, sms, senseHat, alarm, delta=5):
-        self.sms = sms
-        self.sh = senseHat
-        self.base = self.sh.get_temperature()
-        self.alarm = alarm
+    def __init__(self, delta=5):
+        self.base = singular.sh.get_temperature()
         self.delta = delta
+        self.running = False
     
-    def temperature(self, lock):
-        while True:
-            time.sleep(.5)
-            curr_temp = self.sh.get_temperature()
+    def arm(self):
+        self.running = True
+        self.loop()
+    
+    def disarm(self):
+        singular.sms.call("+1<Your Number Here>", '''
+                 We Have detected an unexpected change in temperature.
+                 Respond with "Shut Up" (without the quotes) to disarm.
+                 ''')
+        self.running = False
+    
+    def loop(self, lock=singular.lock):
+        while self.running:
+            time.sleep(2)
+            curr_temp = singular.sh.get_temperature()
             if abs(self.base - curr_temp) >= self.delta:
                 with lock:
-                    if not self.alarm.running:
-                        self.alarm.running = True
+                    if not singular.alarm.running:
+                        singular.alarm.running = True
   

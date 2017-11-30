@@ -2,6 +2,8 @@ from twilio.rest import Client
 import tokens
 from flask import Flask
 
+import singular
+
 class SMS:
     '''
     Ensure you have a 'tokens.py' to hold the SID, authentication token, and phone number defaults.
@@ -24,7 +26,6 @@ class SMS:
         self.client = Client(account_sid, auth_token)
         self.caller = caller
         self.flask = Flask('sms')
-        self.disarms = []
 
         @self.flask.route('/sms', methods=['GET', 'POST'])
         def sms_process():
@@ -36,8 +37,8 @@ class SMS:
             if body == 'Shut Up':
                 if debug:
                     print('Shutting Up')
-                for f in self.disarms:
-                    f()
+                with singular.lock:
+                    singular.alarm.running = False
 
         if autorun:
             self.flask.run(debug=True)
