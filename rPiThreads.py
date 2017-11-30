@@ -1,7 +1,7 @@
 import sms
-import temperature
+import ooTemp
 import accel_alarm
-import timer
+import ooAlarm
 import time
 import threading
 

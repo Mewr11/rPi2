@@ -1,5 +1,5 @@
 from twilio.rest import Client
-from tokens import *
+import tokens
 from flask import Flask
 
 class SMS:
@@ -8,9 +8,9 @@ class SMS:
     Correct syntax can be found in 'tokens_ex.py'
     '''
     def __init__(self,
-                 account_sid=acc_sid,
-                 auth_token=auth_tok,
-                 caller=call_num,
+                 account_sid=tokens.acc_sid,
+                 auth_token=tokens.auth_tok,
+                 caller=tokens.call_num,
                  debug=False,
                  autorun=True):
         '''
@@ -36,7 +36,7 @@ class SMS:
             if body == 'Shut Up':
                 if debug:
                     print('Shutting Up')
-                for f in disarms:
+                for f in self.disarms:
                     f()
 
         if autorun:
